@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokédex</title>
+
+    <link rel="stylesheet" href="style.css">
+    <script src="javascript.js" defer></script>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+</head>
+<body>
+
+    <nav>
+
+        <form action="" method="post">
+
+            <input type="search" placeholder="Pesquise pelo nome do pokémon...">
+            <button type="button" onclick="clicou()">
+                <span class="material-symbols-outlined">
+                search
+                </span>
+            </button>
+
+        </form>
+
+    </nav>
+
+    <main>
+
+        <div class="container">
+
+            <div class="card" id="original">
+
+                <div class="flip-card">
+                    <div class="flip-card-inner">
+                        <div class="frente">
+                            <img src="" alt="pokemon" class="imagens-pokemons">
+                        </div>
+                        <div class="tras">
+
+                            <div class="container-status">
+                                <p>Vida</p>
+                                <div class="barra-status barra-vida">
+                                    <div class="status vida"></div>
+                                    <span class="qtd-status"></span>
+                                </div>
+                            </div>
+
+                            <div class="container-status">
+                                <p>Ataque</p>
+                                <div class="barra-status barra-ataque">
+                                    <div class="status ataque"></div>
+                                    <span class="qtd-status"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="container-status">
+                                <p>Defesa</p>
+                                <div class="barra-status barra-defesa">
+                                    <div class="status defesa"></div>
+                                    <span class="qtd-status span-defesa"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="container-status">
+                                <p>Velocidade</p>
+                                <div class="barra-status barra-velocidade">
+                                    <div class="status velocidade"></div>
+                                    <span class="qtd-status span-velocidade"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="conteudo-card">
+
+                    <p class="numero-pokemon"></p>
+                    <p class="nome-pokemon"></p>
+
+                    <div class="container-tipo">
+                    
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <button onclick="topFunction()" id="btntop" title="Go to top">
+        <span class="material-symbols-outlined">
+        arrow_upward
+        </span>
+    </button> 
+    
+</body>
+</html>
