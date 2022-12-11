@@ -1,5 +1,5 @@
 
-window.addEventListener("load", montacard());
+window.addEventListener("load", montacard);
 
 const elementoOriginal = document.getElementById("original");
 
