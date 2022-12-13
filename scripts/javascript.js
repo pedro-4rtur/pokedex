@@ -267,7 +267,7 @@ inputpesquisa.addEventListener("keyup", function(event) {
     if(datalist.lastChild == null) {
         
         let option = document.createElement("option");
-        option.innerHTML = "Mals, nada encontrado";
+        option.innerHTML = "Mals, nada encontrado :(";
         option.classList.add("option");
 
         datalist.appendChild(option);
