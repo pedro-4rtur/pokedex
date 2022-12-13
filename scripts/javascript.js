@@ -251,9 +251,6 @@ inputpesquisa.addEventListener("keyup", function(event) {
 
         if(opt.length == 1) opt[0].classList.add("inner");
 
-        palavraAntiga = inputpesquisa.value;
-        inputpesquisa.value = opt[countCima].innerHTML;
-        
         countBaixo = countCima+1;
         countCima--;
         if(countCima < 0) {
