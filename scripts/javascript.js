@@ -173,8 +173,11 @@ function scrollFunction() {
 
 // When the user clicks on the button, scroll to the top of the document
 function topFunction() {
-  document.body.scrollTop = 0; // For Safari
-  document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+
+    let scroll = document.documentElement.offsetHeight;
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    
 }
 
 //DataList
@@ -200,6 +203,8 @@ inputpesquisa.addEventListener("keyup", function(event) {
     } else {
         palavra = `${inputpesquisa.value}`; 
     }
+
+    palavra = palavra.toLowerCase();
     
     let contador = 0;
 
@@ -207,9 +212,9 @@ inputpesquisa.addEventListener("keyup", function(event) {
  
         let doc = document.querySelector(`#card${idPokemons[i]}`);
     
-        if(contador < 4) {
+        if(contador <= 4) {
     
-            if(pokemons[i].match(palavra) || (doc.dataset.id).match(palavra)) {
+            if((pokemons[i].match(palavra)) || ((doc.dataset.id).match(palavra))) {
     
                 let option = document.createElement("option");
                 option.innerHTML = pokemons[i];
@@ -217,12 +222,11 @@ inputpesquisa.addEventListener("keyup", function(event) {
     
                 datalist.appendChild(option);
                 (datalist.lastChild).addEventListener("mousedown",function() {
-    
                     inputpesquisa.value = pokemons[i];
                 });
     
                 contador++;
-            }  
+            }
         } else {
             break;
         }
@@ -257,6 +261,16 @@ inputpesquisa.addEventListener("keyup", function(event) {
             countCima= opt.length-1;
         }
 
+    }
+
+    console.log(datalist.lastChild);
+    if(datalist.lastChild == null) {
+        
+        let option = document.createElement("option");
+        option.innerHTML = "Mals, nada encontrado";
+        option.classList.add("option");
+
+        datalist.appendChild(option);
     }
 
     console.log(event.key);

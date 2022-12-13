@@ -103,7 +103,7 @@ nav .container-datalist {
     position: absolute;
     display: none;
     background-color: white;
-    width: 40%;
+    min-width: 40%;
     max-height: 27vh;
     left: 2px;
     overflow: hidden;
