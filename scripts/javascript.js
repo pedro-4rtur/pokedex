@@ -2,6 +2,25 @@
 window.addEventListener("load", montacard);
 
 const elementoOriginal = document.getElementById("original");
+const pokemons = [];
+const idPokemons = [];
+
+let url = "https://pokeapi.co/api/v2/pokemon?limit=251&offset=0";
+    
+fetch(url).then((pokejson) => {
+
+    return pokejson.json();
+}).then((dadosPokemon) => {
+
+    let tamanhoPesquisa = dadosPokemon["results"].length;
+
+    for(let i = 0; i < tamanhoPesquisa; i++) {
+
+        pokemons.push(dadosPokemon["results"][i]["name"]);
+        idPokemons.push(i+1);
+    }
+
+})
 
 function montacard() {
 
@@ -32,6 +51,8 @@ function montacard() {
 
                 document.querySelector(".container").lastChild.id = `card${idPokemon}`;
 
+                document.querySelector("#card"+idPokemon).dataset.id = idPokemon;
+
                 if(idPokemon < 100 && idPokemon >= 10) {
                     
                     idPokemon = "0"+idPokemon;
@@ -51,8 +72,6 @@ function montacard() {
 
                 let tamanho = parseInt(dadosPokemon["types"].length);
 
-                console.log(tamanho);
-
                 document.querySelector("#card"+dadosPokemon["id"]+", .container-tipo").innerHTML = "";
 
                 for(let x = 0; x < tamanho; x++) {
@@ -66,49 +85,67 @@ function montacard() {
                 }
 
                 //DEFINIR STATUS
+
                 //VIDA
                 let docvida = document.querySelector(`#card${dadosPokemon["id"]}, .barra-status > .vida`);
                 let spanvida = document.querySelector(`#card${dadosPokemon["id"]}, .barra-vida > .qtd-status`);
+                
                 let vida = dadosPokemon["stats"][0]["base_stat"];
 
-                vida < 50 ? spanvida.style.color = "black" : spanvida.style.color = "white" ;
-
                 docvida.style.width = vida+"%";
-                if(vida > 100) docvida.style.width = "100%";
+                if(vida > 100) {
+                    
+                    docvida.style.width = "100%";
+                }
                 spanvida.innerHTML = vida;
 
                 //ATAQUE
                 let docataque = document.querySelector(`#card${dadosPokemon["id"]}, .barra-status > .ataque`);
-                let spanataque = document.querySelector(`#card${dadosPokemon["id"]}, .container-status > .barra-ataque > .qtd-status`);
+                let spanataque = document.querySelector(`#card${dadosPokemon["id"]}, .barra-ataque > .qtd-status`);
+              
                 let ataque = dadosPokemon["stats"][1]["base_stat"];
 
-                ataque < 50 ? spanataque.style.color = "black" : spanataque.style.color = "white";
-
                 docataque.style.width = ataque+"%";
-                if(ataque > 100) docataque.style.width = "100%";
+                if(ataque > 100) {
+                    
+                    docataque.style.width = "100%";
+                }
                 spanataque.innerHTML = ataque;
 
                 //DEFESA
                 let docdefesa = document.querySelector(`#card${dadosPokemon["id"]}, .barra-status > .defesa`);
-                let spandefesa = document.querySelector(`#card${dadosPokemon["id"]}, .container-status > .barra-defesa > .qtd-status`);
+                let spandefesa = document.querySelector(`#card${dadosPokemon["id"]}, .barra-defesa > .qtd-status`);
+              
                 let defesa = dadosPokemon["stats"][2]["base_stat"];
 
-                defesa < 50 ? spandefesa.style.color = "black" : spandefesa.style.color = "white";
-
                 docdefesa.style.width = defesa+"%";
-                if(defesa > 100) docdefesa.style.width = "100%";
+                if(defesa > 100) {
+                    
+                    docdefesa.style.width = "100%";
+                }
                 spandefesa.innerHTML = defesa;
 
                 //VELOCIDADE
                 let docvelocidade = document.querySelector(`#card${dadosPokemon["id"]}, .barra-status > .velocidade`);
-                let spanvelocidade = document.querySelector(`#card${dadosPokemon["id"]}, .container-status > .barra-velocidade > .qtd-status`);
+                let spanvelocidade = document.querySelector(`#card${dadosPokemon["id"]}, .barra-velocidade > .qtd-status`);
+                
                 let velocidade = dadosPokemon["stats"][5]["base_stat"];
 
-                velocidade < 50 ? spanvelocidade.style.color = "black" : spanvelocidade.style.color = "white";
-
                 docvelocidade.style.width = velocidade+"%";
-                if(velocidade > 100) docvelocidade.style.width = "100%";
+                if(velocidade > 100) {
+                    
+                    docvelocidade.style.width = "100%";
+                }
+
+                if(velocidade < 20) {
+
+                    spanvelocidade.style.set
+                }
                 spanvelocidade.innerHTML = velocidade;
+
+                //Fim da definição de STATUS
+
+                //dataList(dadosPokemon);
             
                 
             })
@@ -117,14 +154,6 @@ function montacard() {
 
     })
 
-    /*constroi os cards
-    for(let i=0; i < 9; i++) {
-
-        var elementoClone = elementoOriginal.cloneNode(true);
-    
-        // inserindo o elemento na paǵina
-        document.querySelector(".container").appendChild(elementoClone);
-    } */
     
 }
 
@@ -147,3 +176,124 @@ function topFunction() {
   document.body.scrollTop = 0; // For Safari
   document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 }
+
+//DataList
+const datalist = document.querySelector("#lista");
+const inputpesquisa = document.querySelector("#pesquisa");
+const btnpesquisa = document.querySelector("#btnpesquisa");
+let countBaixo=0;
+let countCima=0;
+
+inputpesquisa.addEventListener("keyup", function(event) {
+
+    datalist.style.display = "block";
+    datalist.innerHTML = "";
+    btnpesquisa.type = "button";
+
+    console.clear();
+
+    let palavra;
+
+    if(inputpesquisa.value == "") {
+
+        datalist.style.display = "none";
+    } else {
+        palavra = `${inputpesquisa.value}`; 
+    }
+    
+    let contador = 0;
+
+    for(let i=0; i < pokemons.length; i++) {
+ 
+        let doc = document.querySelector(`#card${idPokemons[i]}`);
+    
+        if(contador < 4) {
+    
+            if(pokemons[i].match(palavra) || (doc.dataset.id).match(palavra)) {
+    
+                let option = document.createElement("option");
+                option.innerHTML = pokemons[i];
+                option.classList.add("option");
+    
+                datalist.appendChild(option);
+                (datalist.lastChild).addEventListener("mousedown",function() {
+    
+                    inputpesquisa.value = pokemons[i];
+                });
+    
+                contador++;
+            }  
+        } else {
+            break;
+        }
+    }
+
+    let opt = document.querySelectorAll(".option");
+
+    if(event.key == "ArrowDown") {
+
+        opt[countBaixo].classList.add("inner");
+
+        if(opt.length == 1) opt[0].classList.add("inner");
+
+        countCima = countBaixo-1;
+        countBaixo++;
+        if(countBaixo >= opt.length) {
+            countBaixo=0;
+        }
+
+
+    }
+
+    if(event.key == "ArrowUp") {
+
+        opt[countCima].classList.add("inner");
+
+        if(opt.length == 1) opt[0].classList.add("inner");
+
+        palavraAntiga = inputpesquisa.value;
+        inputpesquisa.value = opt[countCima].innerHTML;
+        
+        countBaixo = countCima+1;
+        countCima--;
+        if(countCima < 0) {
+            countCima= opt.length-1;
+        }
+
+    }
+
+    console.log(event.key);
+    
+})
+
+inputpesquisa.addEventListener("blur", () => {
+
+    datalist.style.display = "none";
+})
+
+
+/*function pesquisa(pokemon, key) {
+
+    if(pokemon.match(key)) {
+
+        console.log(pokemon);
+    } else {
+
+        console.log("erro");
+    }
+}*/
+
+/*function dataList(dadosPokemon) {
+
+    let array = dadosPokemon["name"];
+    let option = document.createElement("option");
+    option.innerHTML = dadosPokemon["name"];
+    option.dataset.id = dadosPokemon["id"];
+    option.addEventListener("click", () => {
+
+     pesquisa.value = option.innerHTML;
+     datalist.style.display = "none";
+    })
+    datalist.appendChild(option);
+
+} */
