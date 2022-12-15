@@ -46,6 +46,8 @@ function montacard(pokemon) {
         setAtributes(pokemon);
     } else {
 
+        let respesquisa = input.value;
+
         if(id == respesquisa || nome.match(respesquisa)) {
 
             document.querySelector(".container").appendChild(clone);
