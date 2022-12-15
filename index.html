@@ -8,6 +8,8 @@
 
     <link rel="stylesheet" href="estilos/style.css">
     <script src="scripts/javascript.js" defer></script>
+    <!--<script src="scripts/index.js" defer></script>-->
+    <!--<script src="scripts/pesquisa.js" defer></script>-->
 
     <link rel="shortcut icon" href="imagens/logo.png" type="image/x-icon">
 
@@ -22,7 +24,7 @@
             <img src="imagens/logo.png" alt="logo">
         </a>
 
-        <form action="" method="post">
+        <div id="form">
 
             <div class="container-datalist">
                 <input type="text" placeholder="Nome ou Id do pokémon" id="pesquisa" tabindex="0" dir="auto" autocomplete="off">
@@ -31,77 +33,74 @@
                 </div>
             </div>
 
-            <button id="btnpesquisa" type="button" onclick="clicou()">
+            <button id="btnpesquisa" type="button">
                 <span class="material-symbols-outlined">
                 search
                 </span>
             </button>
 
-        </form>
+        </div>
 
     </nav>
+
+    <div class="card" id="original">
+
+        <a href="" class="links">
+            <div class="flip-card">
+                <div class="flip-card-inner">
+                    <div class="frente">
+                        <img src="" alt="pokemon" class="imagens-pokemons">
+                    </div>
+                    <div class="tras">
+                        <div class="container-status">
+                            <p>Vida</p>
+                            <div class="barra-status barra-vida">
+                                <div class="status vida"></div>
+                                <span class="qtd-status"></span>
+                            </div>
+                        </div>
+                        <div class="container-status">
+                            <p>Ataque</p>
+                            <div class="barra-status barra-ataque">
+                                <div class="status ataque"></div>
+                                <span class="qtd-status"></span>
+                            </div>
+                        </div>
+            
+                        <div class="container-status">
+                            <p>Defesa</p>
+                            <div class="barra-status barra-defesa">
+                                <div class="status defesa"></div>
+                                <span class="qtd-status span-defesa"></span>
+                            </div>
+                        </div>
+            
+                        <div class="container-status">
+                            <p>Velocidade</p>
+                            <div class="barra-status barra-velocidade">
+                                <div class="status velocidade"></div>
+                                <span class="qtd-status span-velocidade"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="conteudo-card">
+                <p class="numero-pokemon"></p>
+                <p class="nome-pokemon"></p>
+                <div class="container-tipo">
+            
+                </div>
+            </div>
+        </a>
+
+    </div>
 
     <main>
 
         <div class="container">
 
-            <div class="card" id="original">
-
-                <div class="flip-card">
-                    <div class="flip-card-inner">
-                        <div class="frente">
-                            <img src="" alt="pokemon" class="imagens-pokemons">
-                        </div>
-                        <div class="tras">
-
-                            <div class="container-status">
-                                <p>Vida</p>
-                                <div class="barra-status barra-vida">
-                                    <div class="status vida"></div>
-                                    <span class="qtd-status"></span>
-                                </div>
-                            </div>
-
-                            <div class="container-status">
-                                <p>Ataque</p>
-                                <div class="barra-status barra-ataque">
-                                    <div class="status ataque"></div>
-                                    <span class="qtd-status"></span>
-                                </div>
-                            </div>
-                            
-                            <div class="container-status">
-                                <p>Defesa</p>
-                                <div class="barra-status barra-defesa">
-                                    <div class="status defesa"></div>
-                                    <span class="qtd-status span-defesa"></span>
-                                </div>
-                            </div>
-                            
-                            <div class="container-status">
-                                <p>Velocidade</p>
-                                <div class="barra-status barra-velocidade">
-                                    <div class="status velocidade"></div>
-                                    <span class="qtd-status span-velocidade"></span>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="conteudo-card">
-
-                    <p class="numero-pokemon"></p>
-                    <p class="nome-pokemon"></p>
-
-                    <div class="container-tipo">
-                    
-                    </div>
-
-                </div>
-
-            </div>
+            
 
         </div>
 

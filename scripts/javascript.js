@@ -1,207 +1,141 @@
+let pokemons = [];
+let pag = (window.location.pathname.split("/"))[1];
+//const respesquisa = ((window.location.search).split("="))[1];
+//document.querySelector("#pesquisa").value = respesquisa;
 
-window.addEventListener("load", montacard);
+window.addEventListener("load", getPokemons);
 
-const elementoOriginal = document.getElementById("original");
-const pokemons = [];
-const idPokemons = [];
+async function getPokemons() {
 
-let url = "https://pokeapi.co/api/v2/pokemon?limit=251&offset=0";
-    
-fetch(url).then((pokejson) => {
+    let url = "https://pokeapi.co/api/v2/pokemon?limit=251&offset=0";
+    fetch(url).then((json) => {
 
-    return pokejson.json();
-}).then((dadosPokemon) => {
+        return json.json();
+    }).then((pokemon) => {
 
-    let tamanhoPesquisa = dadosPokemon["results"].length;
+        for(let i=0; i < pokemon["results"].length; i++) {
 
-    for(let i = 0; i < tamanhoPesquisa; i++) {
+            let url = `https://pokeapi.co/api/v2/pokemon/${pokemon["results"][i]["name"]}`;
+            fetch(url).then((response) => {
 
-        pokemons.push(dadosPokemon["results"][i]["name"]);
-        idPokemons.push(i+1);
-    }
+                return response.json();
+            }).then((pokemon) => {
 
-})
-
-function montacard() {
-
-    let urlTodos = "https://pokeapi.co/api/v2/pokemon?limit=252&offset=0";
-    fetch(urlTodos).then(function (response) {
-
-        return response.json();
-    }).then((data) => {
-
-        //percorre o array em busca dos pokemons
-        for(let j=0; j <= data["results"].length; j++) {
-
-            let pokemon = data["results"][j]["url"];
-
-            fetch(pokemon).then((retornaPokemon) => {
-
-                return retornaPokemon.json();
-            }).then((dadosPokemon) => {
-
-                let elementoClone = elementoOriginal.cloneNode(true);
-                // inserindo o elemento na paǵina
-                document.querySelector(".container").appendChild(elementoClone);
-
-                document.querySelector(".container").lastChild.id = dadosPokemon["id"];
-
-                let idPokemon = dadosPokemon["id"];
-                /*elementoClone.id = "card"+idPokemon;*/
-
-                document.querySelector(".container").lastChild.id = `card${idPokemon}`;
-
-                document.querySelector("#card"+idPokemon).dataset.id = idPokemon;
-
-                if(idPokemon < 100 && idPokemon >= 10) {
-                    
-                    idPokemon = "0"+idPokemon;
-                } else {
-
-                    if(idPokemon < 10) {
-
-                        idPokemon = "00"+idPokemon;
-                    }
-                }
-
-                document.querySelector("#card"+idPokemon+", .imagens-pokemons").src = dadosPokemon["sprites"]["front_default"];
-
-                document.querySelector("#card"+idPokemon+", .numero-pokemon").innerHTML = "N° "+idPokemon;
-
-                document.querySelector("#card"+idPokemon+", .nome-pokemon").innerHTML = dadosPokemon["name"];
-
-                let tamanho = parseInt(dadosPokemon["types"].length);
-
-                document.querySelector("#card"+dadosPokemon["id"]+", .container-tipo").innerHTML = "";
-
-                for(let x = 0; x < tamanho; x++) {
-
-                    let paragrafo = document.createElement("p");
-
-                    paragrafo.classList.add("tipo", dadosPokemon["types"][x]["type"]["name"]);
-
-                    document.querySelector("#card"+dadosPokemon["id"]+", .container-tipo").appendChild(paragrafo);
-
-                }
-
-                //DEFINIR STATUS
-
-                //VIDA
-                let docvida = document.querySelector(`#card${dadosPokemon["id"]}, .barra-status > .vida`);
-                let spanvida = document.querySelector(`#card${dadosPokemon["id"]}, .barra-vida > .qtd-status`);
-                
-                let vida = dadosPokemon["stats"][0]["base_stat"];
-
-                docvida.style.width = vida+"%";
-                if(vida > 100) {
-                    
-                    docvida.style.width = "100%";
-                }
-                spanvida.innerHTML = vida;
-
-                //ATAQUE
-                let docataque = document.querySelector(`#card${dadosPokemon["id"]}, .barra-status > .ataque`);
-                let spanataque = document.querySelector(`#card${dadosPokemon["id"]}, .barra-ataque > .qtd-status`);
-              
-                let ataque = dadosPokemon["stats"][1]["base_stat"];
-
-                docataque.style.width = ataque+"%";
-                if(ataque > 100) {
-                    
-                    docataque.style.width = "100%";
-                }
-                spanataque.innerHTML = ataque;
-
-                //DEFESA
-                let docdefesa = document.querySelector(`#card${dadosPokemon["id"]}, .barra-status > .defesa`);
-                let spandefesa = document.querySelector(`#card${dadosPokemon["id"]}, .barra-defesa > .qtd-status`);
-              
-                let defesa = dadosPokemon["stats"][2]["base_stat"];
-
-                docdefesa.style.width = defesa+"%";
-                if(defesa > 100) {
-                    
-                    docdefesa.style.width = "100%";
-                }
-                spandefesa.innerHTML = defesa;
-
-                //VELOCIDADE
-                let docvelocidade = document.querySelector(`#card${dadosPokemon["id"]}, .barra-status > .velocidade`);
-                let spanvelocidade = document.querySelector(`#card${dadosPokemon["id"]}, .barra-velocidade > .qtd-status`);
-                
-                let velocidade = dadosPokemon["stats"][5]["base_stat"];
-
-                docvelocidade.style.width = velocidade+"%";
-                if(velocidade > 100) {
-                    
-                    docvelocidade.style.width = "100%";
-                }
-
-                if(velocidade < 20) {
-
-                    spanvelocidade.style.set
-                }
-                spanvelocidade.innerHTML = velocidade;
-
-                //Fim da definição de STATUS
-
-                //dataList(dadosPokemon);
-            
-                
+                pokemons.push(pokemon);
+                montacard(pokemons[pokemons.length - 1]);
             })
-            
         }
-
     })
+}
 
+//console.log(pokemons);
+
+function montacard(pokemon) {
+
+    const cardOriginal = document.querySelector("#original");
+
+    let nome = pokemon["name"];
+    let id = pokemon["id"];
     
-}
+    let clone = cardOriginal.cloneNode(true);
+    clone.id = `card${id}`;
 
-// Get the button:
-let mybutton = document.getElementById("btntop");
+    if(pag == "index.html") {
 
-// When the user scrolls down 20px from the top of the document, show the button
-window.onscroll = function() {scrollFunction()};
+        document.querySelector(".container").appendChild(clone);
+        setAtributes(pokemon);
+    } else {
 
-function scrollFunction() {
-  if (document.body.scrollTop > 1500 || document.documentElement.scrollTop > 1500) {
-    mybutton.style.display = "block";
-  } else {
-    mybutton.style.display = "none";
-  }
-}
+        if(id == respesquisa || nome.match(respesquisa)) {
 
-// When the user clicks on the button, scroll to the top of the document
-function topFunction() {
-
-    let scroll = document.documentElement.offsetHeight;
-    document.body.scrollTop = 0; // For Safari
-    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+            document.querySelector(".container").appendChild(clone);
+            setAtributes(pokemon);
+        } else {
     
+            console.log("erro");
+        }
+    }
 }
 
-//DataList
-const datalist = document.querySelector("#lista");
-const inputpesquisa = document.querySelector("#pesquisa");
-const btnpesquisa = document.querySelector("#btnpesquisa");
-let countBaixo=0;
-let countCima=0;
+function setAtributes(pokemon) {
 
-inputpesquisa.addEventListener("keyup", function(event) {
+    let card_id = "#"+document.querySelector(`#card${pokemon["id"]}`).id;
+    //Set imagem
+    document.querySelector(`${card_id} .frente > .imagens-pokemons`).src = pokemon["sprites"]["front_default"];
+    
+    //set status
+    //vida
+    let docvida = document.querySelector(`${card_id} .barra-vida .status`);
+    let spanvida = document.querySelector(`${card_id} .barra-vida .qtd-status`);
+    let vida = pokemon["stats"][0]["base_stat"];
+    docvida.style.width = vida+"%";
+    if(vida > 100) {
+        docvida.style.width = "100%";
+    }
+    spanvida.innerHTML = vida;
+
+    //ataque
+    let docataque = document.querySelector(`${card_id} .barra-ataque .status`);
+    let spanataque = document.querySelector(`${card_id} .barra-ataque .qtd-status`);
+    let ataque = pokemon["stats"][1]["base_stat"];
+    docataque.style.width = ataque+"%";
+    if(ataque > 100) {
+        docataque.style.width = "100%";
+    }
+    spanataque.innerHTML = ataque;
+
+    //defesa
+    let docdefesa = document.querySelector(`${card_id} .barra-defesa .status`);
+    let spandefesa = document.querySelector(`${card_id} .barra-defesa .qtd-status`);
+    let defesa = pokemon["stats"][2]["base_stat"];
+    docdefesa.style.width = defesa+"%";
+    if(defesa > 100) {
+        docdefesa.style.width = "100%";
+    }
+    spandefesa.innerHTML = defesa;
+
+    //velocidade
+    let docvelocidade = document.querySelector(`${card_id} .barra-velocidade .status`);
+    let spanvelocidade = document.querySelector(`${card_id} .barra-velocidade .qtd-status`);
+    let velocidade = pokemon["stats"][5]["base_stat"];
+    docvelocidade.style.width = velocidade+"%";
+    if(velocidade > 100) {
+        docvelocidade.style.width = "100%";
+    }
+    spanvelocidade.innerHTML = velocidade;
+
+    //set N° e nome
+    let idAux = pokemon["id"];
+    if(pokemon["id"] < 10) idAux = "00"+pokemon["id"];
+    if(pokemon["id"] > 9 && pokemon["id"] < 100) idAux = "0"+pokemon["id"];
+    document.querySelector(`${card_id} .numero-pokemon`).innerHTML = idAux;
+    document.querySelector(`${card_id} .nome-pokemon`).innerHTML = pokemon["name"];
+
+    //set tipos
+    for(let i=0; i < pokemon["types"].length; i++) {
+
+        let p = document.createElement("p");
+        p.classList.add("tipo", pokemon["types"][i]["type"]["name"]);
+        document.querySelector(`${card_id} .container-tipo`).appendChild(p);
+    }
+}
+
+//sugestoes de pesquisa
+let input = document.querySelector("#pesquisa");
+let datalist = document.querySelector("#lista");
+
+input.addEventListener("keyup", function(event) {
 
     datalist.style.display = "block";
     datalist.innerHTML = "";
-    btnpesquisa.type = "button";
-
-    console.clear();
 
     let palavra;
 
-    if(inputpesquisa.value == "") {
+    if(input.value == "") {
 
         datalist.style.display = "none";
     } else {
-        palavra = `${inputpesquisa.value}`; 
+        palavra = `${input.value}`; 
     }
 
     palavra = palavra.toLowerCase();
@@ -209,20 +143,18 @@ inputpesquisa.addEventListener("keyup", function(event) {
     let contador = 0;
 
     for(let i=0; i < pokemons.length; i++) {
- 
-        let doc = document.querySelector(`#card${idPokemons[i]}`);
     
-        if(contador <= 4) {
+        if(contador < 4) {
     
-            if((pokemons[i].match(palavra)) || ((doc.dataset.id).match(palavra))) {
+            if((pokemons[i]['name'].match(palavra)) || ((pokemons[i]["id"].toString()).match(palavra))) {
     
                 let option = document.createElement("option");
-                option.innerHTML = pokemons[i];
+                option.innerHTML = pokemons[i]["name"];
                 option.classList.add("option");
     
                 datalist.appendChild(option);
                 (datalist.lastChild).addEventListener("mousedown",function() {
-                    inputpesquisa.value = pokemons[i];
+                    input.value = pokemons[i]["name"];
                 });
     
                 contador++;
@@ -263,7 +195,6 @@ inputpesquisa.addEventListener("keyup", function(event) {
 
     }
 
-    console.log(datalist.lastChild);
     if(datalist.lastChild == null) {
         
         let option = document.createElement("option");
@@ -272,39 +203,90 @@ inputpesquisa.addEventListener("keyup", function(event) {
 
         datalist.appendChild(option);
     }
-
-    console.log(event.key);
     
 })
 
-inputpesquisa.addEventListener("blur", () => {
+input.addEventListener("blur", () => {
 
-    datalist.style.display = "none";
+    if(datalist.style.display != "none") {
+        setTimeout(() => {
+            datalist.style.display = "none";
+        }, 300);
+    }
+})
+
+//clique no botão pesquisa
+document.querySelector("#btnpesquisa").addEventListener("click", pesquisa);
+document.querySelector("#pesquisa").addEventListener("focus", () => {
+
+    this.addEventListener("keyup", (event) => {
+
+        if(event.key == "Enter") {
+            pesquisa();
+            datalist.style.display = "none";
+        }
+    })
 })
 
 
-/*function pesquisa(pokemon, key) {
+function pesquisa() {
 
-    if(pokemon.match(key)) {
+    let pesquisa = input.value;
+    let pokeAux =  [];
 
-        console.log(pokemon);
-    } else {
+    if(pesquisa != "") {
 
-        console.log("erro");
+        for(let nome of pokemons) {
+            if((nome["name"].match(pesquisa) || (nome["id"] == pesquisa))) {
+                pokeAux.push(nome);
+            }
+        }
+
+        if(pokeAux.length == 0) {
+
+            /*let opt = document.createElement("option");
+            opt.innerHTML = "Mals, nada encontrado :(";
+            datalist.appendChild(opt);*/
+            datalist.style.display = "block";
+            setTimeout(() => {
+                datalist.style.display = "none";
+            }, 1500);
+            
+        } else {
+
+            document.querySelector(".container").innerHTML = "";
+
+            for(let pokemon of pokeAux) {
+        
+                montacard(pokemon);
+                //console.log(pokemon["name"]);
+            }
+        }
+
     }
-}*/
+    
+}
 
-/*function dataList(dadosPokemon) {
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function() {scrollFunction()};
 
-    let array = dadosPokemon["name"];
-    let option = document.createElement("option");
-    option.innerHTML = dadosPokemon["name"];
-    option.dataset.id = dadosPokemon["id"];
-    option.addEventListener("click", () => {
+function scrollFunction() {
 
-     pesquisa.value = option.innerHTML;
-     datalist.style.display = "none";
-    })
-    datalist.appendChild(option);
+    // Get the button:
+    let btn = document.getElementById("btntop");
 
-} */
+    if (document.body.scrollTop > 2500 || document. documentElement.scrollTop > 2500) {
+        btn.style.display = "block";
+    } else {
+        btn.style.display = "none";
+    }
+}
+
+// When the user clicks on the button, scroll to the top of the document
+function topFunction() {
+
+    let scroll = document.documentElement.offsetHeight;
+    document.body.scrollTop = 0; // For Safari
+    document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+    
+}
