@@ -166,7 +166,7 @@ input.addEventListener("keyup", function(event) {
 
     let opt = document.querySelectorAll(".option");
 
-    if(event.key == "ArrowDown") {
+    /*if(event.key == "ArrowDown") {
 
         opt[countBaixo].classList.add("inner");
 
@@ -193,7 +193,7 @@ input.addEventListener("keyup", function(event) {
             countCima= opt.length-1;
         }
 
-    }
+    }*/
 
     if(datalist.lastChild == null) {
         
