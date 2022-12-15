@@ -40,13 +40,15 @@ function montacard(pokemon) {
     let clone = cardOriginal.cloneNode(true);
     clone.id = `card${id}`;
 
+    console.log(pag);
+
     if(pag == "index.html") {
 
         document.querySelector(".container").appendChild(clone);
         setAtributes(pokemon);
     } else {
 
-        let respesquisa = input.value;
+        let respesquisa = input.value.toLowerCase();
 
         if(id == respesquisa || nome.match(respesquisa)) {
 
