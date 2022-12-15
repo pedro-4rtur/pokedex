@@ -48,7 +48,7 @@ function montacard(pokemon) {
         setAtributes(pokemon);
     } else {
 
-        let respesquisa = input.value.toLowerCase();
+        let respesquisa = (input.value).toLowerCase();
 
         if(id == respesquisa || nome.match(respesquisa)) {
 
@@ -235,7 +235,7 @@ document.querySelector("#pesquisa").addEventListener("focus", () => {
 
 function pesquisa() {
 
-    let pesquisa = input.value;
+    let pesquisa = input.value.toLowerCase();
     let pokeAux =  [];
 
     if(pesquisa != "") {
