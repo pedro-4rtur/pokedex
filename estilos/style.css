@@ -19,13 +19,6 @@
     box-sizing: border-box;
 }
 
-@media screen and (orientation: portrait) {
-
-    .flip-card-inner {
-        transform-style: initial;
-    }
-}
-
 body {
 
     height: 100vh;
