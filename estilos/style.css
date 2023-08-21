@@ -2,13 +2,6 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap');
 
-@media screen and (orientation: portrait) {
-
-    .flip-card-inner {
-        transform-style: initial;
-    }
-}
-
 :root {
 
     --fontpadrao: Arial, Helvetica, sans-serif;
@@ -24,6 +17,13 @@
     margin: 0px;
     padding: 0px;
     box-sizing: border-box;
+}
+
+@media screen and (orientation: portrait) {
+
+    .flip-card-inner {
+        transform-style: initial;
+    }
 }
 
 body {
