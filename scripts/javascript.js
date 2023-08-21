@@ -1,5 +1,8 @@
 let pokemons = [];
 let pag = (window.location.pathname.split("/"))[1];
+let geracoes = [];
+geracoes.push(151, 100)
+
 //const respesquisa = ((window.location.search).split("="))[1];
 //document.querySelector("#pesquisa").value = respesquisa;
 
@@ -241,7 +244,7 @@ function pesquisa() {
     if(pesquisa != "") {
 
         for(let nome of pokemons) {
-            if((nome["name"].match(pesquisa) || (nome["id"] == pesquisa))) {
+            if(nome["name"].match(pesquisa) || nome["id"].toString().match(pesquisa)) {
                 pokeAux.push(nome);
             }
         }
@@ -270,6 +273,51 @@ function pesquisa() {
     }
     
 }
+
+//dropdown filtro
+
+let optFiltros = document.querySelectorAll(".drop-content option");
+let spanFiltro = document.querySelector(".dropbtn span");
+
+console.log(optFiltros);
+
+for(let opt of optFiltros) {
+
+    opt.addEventListener("click", function filtro() {
+
+        spanFiltro.innerHTML = opt.innerHTML;
+
+        switch (opt.value) {
+            case "n-":
+
+                let pokeAux = [];
+              
+                for(let pof of pokemons) {
+
+                    pokeAux.push(pof["name"]);
+                }
+
+                console.clear();
+                console.log(pokemons.length);
+                console.log(pokeAux.sort());
+                
+                break;
+        
+            default:
+                break;
+        }
+    });
+}
+
+document.querySelector(".dropbtn button").addEventListener("click", () => {
+
+    document.querySelector(".drop-content").style.display = "block";
+})
+
+document.querySelector(".dropbtn button").addEventListener("blur", () => {
+
+    document.querySelector(".drop-content").style.display = "none";
+})
 
 // When the user scrolls down 20px from the top of the document, show the button
 window.onscroll = function() {scrollFunction()};
