@@ -3,35 +3,20 @@ let pag = (window.location.pathname.split("/"))[1];
 let geracoes = [];
 geracoes.push(151, 100)
 
-//const respesquisa = ((window.location.search).split("="))[1];
-//document.querySelector("#pesquisa").value = respesquisa;
+console.log(geracoes)
 
 window.addEventListener("load", getPokemons);
 
 async function getPokemons() {
+    let url = "https://pokeapi.co/api/v2/pokemon/"
+    let contador = 1
 
-    let url = "https://pokeapi.co/api/v2/pokemon?limit=251&offset=0";
-    fetch(url).then((json) => {
-
-        return json.json();
-    }).then((pokemon) => {
-
-        for(let i=0; i < pokemon["results"].length; i++) {
-
-            let url = `https://pokeapi.co/api/v2/pokemon/${pokemon["results"][i]["name"]}`;
-            fetch(url).then((response) => {
-
-                return response.json();
-            }).then((pokemon) => {
-
-                pokemons.push(pokemon);
-                montacard(pokemons[pokemons.length - 1]);
-            })
-        }
-    })
+    for(contador; contador<=geracoes[0]; contador++) {
+        let response = await fetch(url+contador)
+        let pokemon = await response.json()
+        montacard(pokemon)
+    }
 }
-
-//console.log(pokemons);
 
 function montacard(pokemon) {
 
@@ -42,8 +27,6 @@ function montacard(pokemon) {
     
     let clone = cardOriginal.cloneNode(true);
     clone.id = `card${id}`;
-
-    console.log(pag);
 
     if(pag == "index.html") {
 
