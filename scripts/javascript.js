@@ -14,8 +14,12 @@ async function getPokemons() {
     for(contador; contador<=geracoes[0]; contador++) {
         let response = await fetch(url+contador)
         let pokemon = await response.json()
-        montacard(pokemon)
+        pokemons.push(pokemon)
     }
+
+    pokemons.forEach(element => {
+        montacard(element)
+    });
 }
 
 function montacard(pokemon) {
